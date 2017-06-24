@@ -17,6 +17,7 @@ class Scattergories extends React.Component {
 
 		this.state = { playerNames: playerNames, numberOfRounds: 12, timePerRound: 150, stage: stage.setupPlayers };
 		this.addPlayer = this.addPlayer.bind(this);
+		this.removePlayer = this.removePlayer.bind(this);
 		this.setPlayerName = this.setPlayerName.bind(this);
 		this.goToSetupRules = this.goToSetupRules.bind(this);
 
@@ -32,6 +33,7 @@ class Scattergories extends React.Component {
 				return <SetupPlayers
 					playerNames={this.state.playerNames} 
 					addPlayer={this.addPlayer} 
+					removePlayer={this.removePlayer}
 					setPlayerName={this.setPlayerName}
 					goToSetupRules= {this.goToSetupRules} />;
 
@@ -55,6 +57,11 @@ class Scattergories extends React.Component {
 	addPlayer(e) {
 		e.preventDefault();
 		const playerNames = this.state.playerNames.push("");
+		this.setState({ playerNames: playerNames });
+	}
+
+	removePlayer(index){
+		const playerNames = this.state.playerNames.delete(index);
 		this.setState({ playerNames: playerNames });
 	}
 
@@ -164,7 +171,7 @@ class SetupPlayers extends React.Component {
 				<div className="panel-heading">Players</div>
 				<div className="panel-body">
 					<p>Please add unique names for the Scattergories players below:</p>
-					<PlayerList playerNames={this.props.playerNames} setPlayerName={this.props.setPlayerName} />
+					<PlayerList playerNames={this.props.playerNames} setPlayerName={this.props.setPlayerName} removePlayer={this.props.removePlayer} />
 					<br/>
 					<div>
 						<button type="button" className='btn btn-default' onClick={this.props.addPlayer}>Add player</button>
@@ -193,7 +200,7 @@ class SetupPlayers extends React.Component {
 
 class PlayerList extends React.Component {
 	render () {
-		const inputs = this.props.playerNames.map((name, index) => <PlayerName playerName={name} setPlayerName={this.props.setPlayerName} index={index}/>);
+		const inputs = this.props.playerNames.map((name, index) => <PlayerName playerName={name} setPlayerName={this.props.setPlayerName} index={index} removePlayer={this.props.removePlayer}/>);
 
 		return (
 			<div>
@@ -208,12 +215,13 @@ class PlayerName extends React.Component {
 		super(props);
 
 		this.setPlayerName = this.setPlayerName.bind(this);
+		this.removePlayer = this.removePlayer.bind(this);
 	}
 
 	render () {
 		return (
 			<div>
-				<input defaultValue={this.props.playerName} onKeyUp={this.setPlayerName}></input>
+				<input defaultValue={this.props.playerName} onKeyUp={this.setPlayerName}></input><span className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.removePlayer}></span>
 			</div>
 		);
 	}
@@ -223,6 +231,12 @@ class PlayerName extends React.Component {
 
 		const playerName = e.target.value;
 		this.props.setPlayerName(playerName, this.props.index);
+	}
+
+	removePlayer(e) {
+		e.preventDefault();
+
+		this.props.removePlayer(this.props.index);
 	}
 }
 
