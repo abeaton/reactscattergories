@@ -49,7 +49,11 @@ class Scattergories extends React.Component {
 					startGame={this.startGame}/>;
 
 			case stage.gamePlay:
-				return <Game />;
+				return <Game 
+					playerNames={this.state.playerNames}
+					numberOfRounds={this.state.numberOfRounds}
+					timePerRound={this.state.timePerRound}
+					backToPlayerNames={this.backToPlayerNames}/>;
 
 			default:
 				throw "GAME IS BROKEN";

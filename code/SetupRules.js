@@ -1,4 +1,5 @@
 import React from 'react';
+import ScattergoriesRandomGenerator from './ScattergoriesRandomGenerator.js';
 
 export default class SetupRules extends React.Component {
 	constructor(props) {
