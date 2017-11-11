@@ -1,11 +1,16 @@
 import React from 'react';
 import Category from './Category.js';
+import ScattergoriesRandomGenerator from './ScattergoriesRandomGenerator.js';
 
 export default class Play extends React.Component {
 	constructor(props){
 		super(props);
 
-		this.state = { time: this.props.timePerRound, totalTime: this.props.timePerRound };
+		this.state = { 
+			time: this.props.timePerRound, 
+			totalTime: this.props.timePerRound,
+			letter: ScattergoriesRandomGenerator.getLetter()
+		};
 		this.goToScoreState = this.goToScoreState.bind(this);
 		this.tick = this.tick.bind(this);
 		this.goToScoreState();
@@ -28,8 +33,15 @@ export default class Play extends React.Component {
 						<div className="progress-bar" style={progressBarStyle} role="progressbar" aria-valuenow={timeRemainingAmount + ""} aria-valuemin="0" aria-valuemax="100">
 						</div>
 					</div>
-					<div>
-						{this.props.categories.map((category, index) => <Category category={category} index={index+1}/>)}
+					<div className="container">
+						<div className="row">
+							<div className="col-md-6">
+								{this.props.categories.map((category, index) => <Category category={category} index={index+1}/>)}
+							</div>
+							<div className="col-md-6">
+								<h1>{this.state.letter}</h1>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
